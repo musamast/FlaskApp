@@ -4,8 +4,9 @@ from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from functools import wraps
-from forms import RegisterForm
-from werkzeug import secure_filename
+from forms import AddProductForm
+# from forms import RegisterForm
+from werkzeug.utils import secure_filename
 import cx_Oracle
 
 app = Flask(__name__)
@@ -48,11 +49,11 @@ def home():
 def shop():
     imagesPath=[]
     cur=connection.cursor()
-    prepare ="SELECT * from products";
+    prepare ="SELECT * from products order by uploaddate desc";
     cur.execute(prepare)
     products=cur.fetchall()
     for image in products:
-        imagesPath.append(url_for('static',filename='upload/'+image[10]))
+        imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
     return render_template('product.html', products=zip(imagesPath,products))
 
 
@@ -124,16 +125,17 @@ def dashboard():
 
 @app.route('/add_product/', methods=['POST', 'GET'])
 def add_product():
-    if request.method == 'POST':
-        category = request.form['category']
-        name = request.form['name']
-        code = request.form['code']
-        ptype = request.form['type']
-        color = request.form['color']
-        size = request.form['size']
-        price = int(request.form['price'])
-        quantity = int(request.form['quantity'])
-        description = request.form['description']
+    form =  AddProductForm(request.form)
+    if request.method == 'POST' and form.validate():
+        category = form.category.data
+        name = form.name.data
+        code = form.code.data
+        ptype = form.pro_type.data
+        color = form.color.data
+        size = form.size.data
+        price = int(form.price.data)
+        quantity = int(form.quantity.data)
+        description = form.description.data
 
         # check if the post request has the file part
         image1 = checkImg('file1')
@@ -157,7 +159,9 @@ def add_product():
         cur.close()
         flash('Product Added', 'success')
         return redirect(url_for('dashboard'))
-    return render_template('add_product.html', title='title')
+    # else:
+    #     return 'not valid'    
+    return render_template('add_product.html', title='title',form=form)
 
 
 @app.route('/register/', methods=['GET', 'POST'])

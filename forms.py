@@ -1,11 +1,28 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from flask_wtf import FlaskForm
+# from flask_wtf import Form
+from wtforms import StringField, SelectField,IntegerField,DecimalField,validators,TextAreaField
+# from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
-class RegisterForm(Form):
-    name = StringField('Name' , [validators.Length(min=1 , max=50)])
-    username = StringField('Username' , [validators.Length(min=4 , max=25)])
-    email = StringField('Email' , [validators.Length(min=6 , max=50)])
-    password = PasswordField('Password' , [
-        validators.DataRequired(),
-        validators.EqualTo('confirm' , message = 'Password do not match')
-        ])
-    confirm = PasswordField('Confirm Password')
+
+
+class AddProductForm(FlaskForm):
+    category = SelectField('Category',choices=[('All','All'),('Men','Men'),('Women','Women'),
+                                                ('Accesories','Accesories')] )
+    name = StringField('Product Name',[validators.Length(min=5 , max=50)])
+    code = StringField('Product Code', )
+    pro_type = SelectField('Type',choices=[('Dresses','Dresses'),('Watches','Watches'),
+                                            ('Bags','Bags'),('Footwear','Footwear'),('Sunglasses','Sunglasses')])
+    color = SelectField('Color',choices=[('Red','Red'),('Orange','Orange'),('Pink','Pink'),
+                                             ('Black','Black')])
+    size = StringField('Size' ,[validators.Length(min=1 , max=50)])
+    price = DecimalField('Price')
+    quantity = IntegerField('Quantity')
+    description = TextAreaField('description',[validators.Length(min=10 )])
+    image1 = FileField('Image 1')
+    image2 = FileField('Image 2')
+    image3 = FileField('Image 3')
+
+
+                                     
+    # submit = SubmitField('Sign Up')
