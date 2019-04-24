@@ -52,8 +52,8 @@ def shop():
     cur.execute(prepare)
     products=cur.fetchall()
     for image in products:
-        imagesPath.append(os.path.join(app.config['UPLOAD_FOLDER'],image[10] ))
-    return render_template('product.html', products=products, imagesPath=imagesPath)
+        imagesPath.append(url_for('static',filename='upload/'+image[10]))
+    return render_template('product.html', products=zip(imagesPath,products))
 
 
 @app.route('/blog/')
