@@ -1,0 +1,154 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<div class="container-contact100">
+        
+    <div class="wrap-contact100">
+            {%include 'includes/_messages.html'%}
+                <!-- <div class="alert alert-danger" id=validfile >Select Valid Image</div> -->
+                <div class="alert alert-danger" id='nofile' style="display:none">Upload Atleast Image 1</div>
+
+        
+        <form class="contact100-form validate-form"  method="POST" enctype = "multipart/form-data">
+            <span class="contact100-form-title">
+                Product Details
+            </span>
+            <div class="wrap-input100 validate-input" data-validate="Select Category">
+                <span class="label-input100">Category</span>
+               
+                    <select class="selection-1" name="category" id="category" > 
+                        <option  selected disabled>Choose Category</option>
+                        <option>Men</option>
+                        <option>Women</option>
+                        <option>Kid</option>
+                        <option>Accesories</option>
+                    </select>
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 validate-input" data-validate="Product Name is required !">
+                <span class="label-input100">Product Name</span>
+                <input class="input100" type="text" name="name">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 validate-input" data-validate = "Product Code is required !">
+                <span class="label-input100">Product Code</span>
+                <input class="input100" type="text" name="code">
+                <span class="focus-input100"></span>
+            </div>
+            <div class="wrap-input100 validate-input" data-validate="Select Type">
+                    <span class="label-input100">Type</span>
+                  
+                        <select class="selection-1" name="type">
+                            <option selected disabled>Choose Type</option>
+                            <option>Dresses</option>
+                            <option>Watches</option>
+                            <option>Bags</option>
+                            <option>Footerwear</option>
+                            <option>Sunglasses</option>
+                        </select>
+                   
+                    <span class="focus-input100"></span>
+                </div>
+    
+            <div class="wrap-input100 validate-input " data-validate="Select Color">
+                <span class="label-input100">Color</span>
+            
+                    <select class="selection-1" name="color">
+                        <option selected disabled>Choose Color</option>
+                        <option>Red</option>
+                        <option>Blue</option>
+                        <option>Orange</option>
+                        <option>Pink</option>
+                    </select>
+            
+                <span class="focus-input100"></span>
+            </div>
+
+            <!-- <div class="wrap-input100 validate-input" data-validate="Select Size">
+                <span class="label-input100">Size</span>
+                
+                    <select class="selection-1" name="size">
+                        <option selected disabled>Choose Size</option>
+                        <option>Size S</option>
+                        <option>Size M</option>
+                        <option>Size L</option>
+                        <option>Size Xl</option>
+                    </select>
+                
+                <span class="focus-input100"></span>
+            </div>
+             -->
+             <div class="wrap-input100 validate-input" data-validate = "Enter Size !">
+                    <span class="label-input100">Sizes (separated by ' , ')</span>
+                    <input class="input100" type="text" name="size" >
+                    <span class="focus-input100"></span>
+                </div>
+           
+            <div class="wrap-input100 validate-input" data-validate = "Enter valid Price !">
+                <span class="label-input100">Price (PKR)</span>
+                <input class="input100" type="text" name="price" >
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 validate-input" data-validate = "Enter valid quantity !">
+                <span class="label-input100">Quantity</span>
+                
+                <input class="input100" type="text" name="quantity" >
+                <span class="focus-input100"></span>
+            </div>  
+            <div class="wrap-input100 validate-input" data-validate = "Product Description is required !">
+                <span class="label-input100">Product Description</span>
+                <textarea class="input100" name="description" ></textarea>
+                <span class="focus-input100"></span>
+            </div>
+
+              <div class="row ">
+                <div class="col-sm-4">
+                    <div class="input-container">
+                        <input type="file" class="real-input"  name='file1' id='file1'>
+                        
+                        <span class="file-info">Image 1</span>
+                      </div>
+                      </div>
+                
+                <div class="col-sm-4">
+                    <div class="input-container">
+                        <input type="file" class="real-input" name='file2' >
+                        
+                        <span class="file-info">Image 2</span>
+                      </div>
+                    
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-container">
+                        <input type="file" class="real-input" name='file3'>
+                        
+                        <span class="file-info">Image 3</span>
+                      </div></div>
+    
+                </div>
+                  <div class="container-contact100-form-btn">
+                <div class="wrap-contact100-form-btn">
+                    <div class="contact100-form-bgbtn"></div>
+                    <button class="contact100-form-btn" >
+                        <span>
+                            Submit
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+</script>
+
+    {% endblock page_content %}
