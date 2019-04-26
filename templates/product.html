@@ -2,6 +2,8 @@
 {% block page_content %}
 	<!-- Title Page -->
 	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url({{url_for('static',filename='images/heading-pages-02.jpg')}});">
+		{%include 'includes/_messages.html'%}
+
 		<h2 class="l-text2 t-center">
 			Women
 		</h2>
@@ -24,31 +26,31 @@
 
 						<ul class="p-b-54">
 							<li class="p-t-4">
-								<a href="#" class="s-text13 active1">
+								<a href="{{url_for('showcategory',category='all')}}" class="s-text13">
 									All
 								</a>
 							</li>
 
 							<li class="p-t-4">
-								<a href="#" class="s-text13">
+								<a href="{{url_for('showcategory',category='women')}}" class="s-text13">
 									Women
 								</a>
 							</li>
 
 							<li class="p-t-4">
-								<a href="#" class="s-text13">
+								<a href="{{url_for('showcategory',category='men')}}" class="s-text13">
 									Men
 								</a>
 							</li>
 
 							<li class="p-t-4">
-								<a href="#" class="s-text13">
+								<a href="{{url_for('showcategory',category='kids')}}" class="s-text13">
 									Kids
 								</a>
 							</li>
 
 							<li class="p-t-4">
-								<a href="#" class="s-text13">
+								<a href="{{url_for('showcategory',category='accessories')}}" class="s-text13">
 									Accesories
 								</a>
 							</li>
@@ -91,7 +93,7 @@
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-									<img src="{{image}}" alt="IMG-PRODUCT" width="200px" height="350px">
+									<img src="{{image}}" alt="IMG-PRODUCT"  width="200px" height="350px">
 
 									<div class="block2-overlay trans-0-4">
 										<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -101,20 +103,20 @@
 
 										<div class="block2-btn-addcart w-size1 trans-0-4">
 											<!-- Button -->
-											<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											<a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="{{url_for('showproduct',productcode=product.code,category='all')}}">
 												View Product
-											</button>
+											</a>
 										</div>
 									</div>
 								</div>
 
 								<div class="block2-txt p-t-20">
 									<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-										Herschel supply co 25l
+										{{product.name}}
 									</a>
 
 									<span class="block2-price m-text6 p-r-5">
-										$75.00
+										 {{product.price}} pkr
 									</span>
 								</div>
 							</div>
