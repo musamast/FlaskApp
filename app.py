@@ -22,6 +22,8 @@ app.config['MYSQL_USER'] = "beeb27dc4ba1c5"
 app.config['MYSQL_PASSWORD'] = "d8a0ef01"
 app.config['MYSQL_DB'] = "heroku_725bdcfeff15a40"
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
+app.config['MYSQL_PORT'] = 3306
+
 
 
 
@@ -204,8 +206,6 @@ def admin():
 @app.route('/dashboard/')
 def dashboard():
     return render_template('dashboard.html')
-
-
 # @app.route('/dashboard/<category>')
 # def categorys():
 #     return
@@ -305,4 +305,4 @@ def register():
 
 if __name__ == '__main__':
     app.secret_key = 'secret123'
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
