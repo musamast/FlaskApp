@@ -1,6 +1,5 @@
 import os
 SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
@@ -14,6 +13,8 @@ import secrets
 from PIL import Image
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = SECRET_KEY
+
 mysql = MySQL(app)
 
 app.config['UPLOAD_FOLDER'] = 'static/upload'
