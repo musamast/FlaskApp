@@ -78,7 +78,7 @@ def showtype(type):
     cur =mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE TYPE = :type'
     # cur.execute(prepare,{'type':type.title()})
-    cur.execute(f"SELECT * FROM PRODUCTS WHERE TYPE = {type}")
+    cur.execute("SELECT * FROM PRODUCTS WHERE TYPE = %s",(type))
     products=cur.fetchall()
     for image in products:
         # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
@@ -125,7 +125,7 @@ def showcategory(category):
     cur=mysql.connection.cursor()
     # prepare ="SELECT * from products where category=:category"
     # cur.execute(prepare,{'category':category.title()})
-    cur.execute(f"SELECT * from products where category={category}")
+    cur.execute("SELECT * from products where category= %s",(category))
     products=cur.fetchall()
     cur.close()
     print(products)
@@ -143,7 +143,7 @@ def showproduct(productcode,category='qq'):
     cur=mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE CODE= :code'
     # cur.execute(prepare,{'code':productcode})
-    cur.execute(f'SELECT * FROM PRODUCTS WHERE CODE= {productcode}')
+    cur.execute("SELECT * FROM PRODUCTS WHERE CODE= %s",(productcode))
     product=cur.fetchone()
     if len(product) > 0:     
         if product['pic1'] == '':
@@ -249,11 +249,12 @@ def add_product():
         # cur = connection.cursor()
         cur = mysql.connection.cursor()
 
-        cur.execute('SELECT CODE FROM PRODUCTS')
+        cur.execute("SELECT CODE FROM PRODUCTS")
         availablecodes=cur.fetchall()
-        cur.close()
+        
+        # cur.close()
         for precode in availablecodes:
-            if precode == code:
+            if precode['CODE'] == code:
                 flash('Product code already assigned to another product','danger')
                 return render_template('add_product.html', title='title',form=form)
         data = (
