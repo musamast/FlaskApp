@@ -268,7 +268,7 @@ def add_product():
         # cur = connection.cursor()
         cur = mysql.connection.cursor()
         # cur.execute(sql, data)
-        cur.execute(f"""INSERT INTO products(category , name , code , type, color,
+        cur.execute("""INSERT INTO products(category , name , code , type, color,
          sizee , price , quantity , description , pic1 , pic2 , pic3 ) 
          VALUES( %s, %s,  %s, %s, %s, %s, %s,
             %s, %s, %s,  %s, %s)""",(
