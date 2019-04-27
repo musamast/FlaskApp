@@ -78,7 +78,7 @@ def showtype(type):
     cur =mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE TYPE = :type'
     # cur.execute(prepare,{'type':type.title()})
-    cur.execute("SELECT * FROM PRODUCTS WHERE TYPE = %s",(type))
+    cur.execute("SELECT * FROM PRODUCTS WHERE TYPE = %s",[type])
     products=cur.fetchall()
     for image in products:
         # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
@@ -125,7 +125,7 @@ def showcategory(category):
     cur=mysql.connection.cursor()
     # prepare ="SELECT * from products where category=:category"
     # cur.execute(prepare,{'category':category.title()})
-    cur.execute("SELECT * from products where category= %s",(category))
+    cur.execute("SELECT * from products where category= %s",[category])
     products=cur.fetchall()
     cur.close()
     print(products)
