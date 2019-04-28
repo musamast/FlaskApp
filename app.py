@@ -3,12 +3,10 @@ SECRET_KEY = os.urandom(32)
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
-# from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from functools import wraps
 from forms import AddProductForm
-# from forms import RegisterForm
 from werkzeug.utils import secure_filename
-import cx_Oracle
+# import cx_Oracle
 import secrets
 from PIL import Image
 
@@ -81,13 +79,17 @@ def showtype(type):
     cur =mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE TYPE = :type'
     # cur.execute(prepare,{'type':type.title()})
-    cur.execute("SELECT * FROM PRODUCTS WHERE TYPE = %s",[type])
+    if type.lower() =='all':
+        cur.execute("SELECT * FROM PRODUCTS")    
+    cur.execute("SELECT * FROM PRODUCTS WHERE TYPE = %s",[type.lower()])
     products=cur.fetchall()
-    for image in products:
+    if len (products) > 0:
+        for image in products:
         # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
-        imagesPath.append(url_for('static',filename=f'upload/{image.pic1}'))
-    return render_template('type.html', products=zip(imagesPath,products))
-
+            imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
+        return render_template('type.html', products=zip(imagesPath,products),title=type)
+    flash('Category Not Found !','danger')
+    return redirect(url_for('shop'))
 
 @app.route('/shop/', methods=['GET', 'POST'])
 def shop():
@@ -102,7 +104,7 @@ def shop():
     for image in products:
         # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
         imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
-    return render_template('product.html', products=zip(imagesPath,products))
+    return render_template('product.html', products=zip(imagesPath,products),title='All')
 
 
 @app.route('/blog/')
@@ -128,17 +130,20 @@ def showcategory(category):
     cur=mysql.connection.cursor()
     # prepare ="SELECT * from products where category=:category"
     # cur.execute(prepare,{'category':category.title()})
-    cur.execute("SELECT * from products where category= %s",[category])
+    if category.lower() =='all':
+        cur.execute("SELECT * FROM PRODUCTS")
+    else:       
+        cur.execute("SELECT * from products where category= %s",[category.lower()])
     products=cur.fetchall()
     cur.close()
-    print(products)
     if len(products) > 0:     
         for image in products:
             # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
-            imagesPath.append(url_for('static',filename=f'upload/{image.pic1}'))
-        return render_template('product.html', products=zip(imagesPath,products))
+            imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
+        return render_template('product.html', products=zip(imagesPath,products),title=category)
     flash('Category Not Found !','danger')
     return redirect(url_for('shop'))
+
 @app.route('/shop/<category>/<productcode>/')
 def showproduct(productcode,category='qq'):
     imagesPath=[]
@@ -146,7 +151,7 @@ def showproduct(productcode,category='qq'):
     cur=mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE CODE= :code'
     # cur.execute(prepare,{'code':productcode})
-    cur.execute("SELECT * FROM PRODUCTS WHERE CODE= %s",(productcode))
+    cur.execute("SELECT * FROM PRODUCTS WHERE CODE= %s",[productcode])
     product=cur.fetchone()
     if len(product) > 0:     
         if product['pic1'] == '':
@@ -162,7 +167,15 @@ def showproduct(productcode,category='qq'):
         else:
              imagesPath.append(url_for('static',filename=f"upload/{product['pic3']}"))
 
-        return render_template('product-detail.html',product=product,imagesPath=imagesPath)
+        if product['sizee'] != '':
+            sizes=product['sizee'].split(',')
+        else:
+            sizes='Not Available' 
+        if product['color'] != '':
+            colors=product['color'].split(',')
+        else:
+            colors='Not Available'        
+        return render_template('product-detail.html',product=product,imagesPath=imagesPath,sizes=sizes,colors=colors)
     flash('Product Not Found !','danger')
     return redirect(url_for('showcategory',category=category))
 
@@ -213,7 +226,7 @@ def dashboard():
 # def categorys():
 #     return
 
-@app.route('/add_product/', methods=['POST', 'GET'])
+@app.route('/addproduct/', methods=['POST', 'GET'])
 def add_product():
     form =  AddProductForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -280,7 +293,7 @@ def add_product():
         ))
         mysql.connection.commit()
         cur.close()
-        flash('Product Added', 'success')
+        flash(f'{name} Added !', 'success')
         return redirect(url_for('dashboard'))
     return render_template('add_product.html', title='title',form=form)
 

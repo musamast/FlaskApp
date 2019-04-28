@@ -2,17 +2,15 @@
 {% block page_content %}
 {%from 'includes/_formhelpers.html' import render_field%}
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <div class="container-contact100">
-        
     <div class="wrap-contact100">
-            {%include 'includes/_messages.html'%}
-                <!-- <div class="alert alert-danger" id=validfile >Select Valid Image</div> -->
-                <div class="alert alert-danger" id='nofile' style="display:none">Upload Atleast Image 1</div>
-
-        
-        <form class="contact100-form"  method="POST" enctype = "multipart/form-data">
+        {%include 'includes/_messages.html'%}
+        <!-- <div class="alert alert-danger" id=validfile >Select Valid Image</div> -->
+        <div class="alert alert-danger" id='nofile' style="display:none">Upload Atleast Image 1</div>
+        <form class="contact100-form" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <span class="contact100-form-title">
                 Product Details
@@ -25,48 +23,53 @@
 
             {{render_field(form.pro_type , class_="selection-1")}}
 
-            {{render_field(form.color , class_="selection-1")}}
+            {{render_field(form.color , class_="input100")}}
 
             {{render_field(form.size , class_="input100")}}
-             
+
             {{render_field(form.price , class_="input100")}}
 
-            
             {{render_field(form.quantity , class_="input100")}}
 
-            
             {{render_field(form.description , class_="input100")}}
-
-            <!-- {{render_field(form.image1 , class_="input100")}} -->
-            <div class="form-group">
-            {{ form.image1.label() }}
-                    {{ form.image1(class="form-control-file") }}
-                    {% if form.image1.errors %}
-                    {% for error in form.image1.errors %}
-                        <span class="text-danger">{{ error }}</span></br>
-                    {% endfor %}
-                {% endif %}
-                </div>
-                <div class="form-group">
-                        {{ form.image2.label() }}
-                                {{ form.image2(class="form-control-file") }}
-                                {% if form.image2.errors %}
-                                {% for error in form.image2.errors %}
-                                    <span class="text-danger">{{ error }}</span></br>
-                                {% endfor %}
-                            {% endif %}
-                            </div>
-                            <div class="form-group">
-                                    {{ form.image3.label() }}
-                                            {{ form.image3(class="form-control-file") }}
-                                            {% if form.image3.errors %}
-                                            {% for error in form.image3.errors %}
-                                                <span class="text-danger">{{ error }}</span></br>
-                                            {% endfor %}
-                                        {% endif %}
-                                        </div>                
-            <!-- <div class="row ">
+            <div class="row ">
                 <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form.image1.label() }}
+                        {{ form.image1(class="real-input") }}
+                        {% if form.image1.errors %}
+                        {% for error in form.image1.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form.image2.label() }}
+                        {{ form.image2(class="real-input") }}
+                        {% if form.image2.errors %}
+                        {% for error in form.image2.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        {{ form.image3.label() }}
+                        {{ form.image3(class="real-input") }}
+                        {% if form.image3.errors %}
+                        {% for error in form.image3.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                
                     <div class="input-container">
                         <input type="file" class="real-input"  name='file1' id='file1'>
                         
@@ -76,7 +79,7 @@
                 
                 <div class="col-sm-4">
                     <div class="input-container">
-                        <input type="file" class="real-input" name='file2' >
+                        <input type="file" class="" name='file2' >
                         
                         <span class="file-info">Image 2</span>
                       </div>
@@ -91,10 +94,10 @@
                     </div>
     
                 </div> -->
-                  <div class="container-contact100-form-btn">
+            <div class="container-contact100-form-btn">
                 <div class="wrap-contact100-form-btn">
                     <div class="contact100-form-bgbtn"></div>
-                    <button class="contact100-form-btn" >
+                    <button class="contact100-form-btn">
                         <span>
                             Submit
                             <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
@@ -107,4 +110,4 @@
 </div>
 
 
-    {% endblock page_content %}
+{% endblock page_content %}

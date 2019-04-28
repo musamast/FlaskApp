@@ -5,11 +5,9 @@
 		{%include 'includes/_messages.html'%}
 
 		<h2 class="l-text2 t-center">
-			Women
+		{{title}}
 		</h2>
-		<p class="m-text13 t-center">
-			New Arrivals Women Collection 2018
-		</p>
+		
 	</section>
 
 
@@ -38,8 +36,8 @@
 							</li>
 
 							<li class="p-t-4">
-								<a href="{{url_for('showtype',type='bags')}}" class="s-text13">
-									Bags
+								<a href="{{url_for('showtype',type='wallets')}}" class="s-text13">
+									Wallets
 								</a>
 							</li>
 
@@ -103,7 +101,7 @@
 
 										<div class="block2-btn-addcart w-size1 trans-0-4">
 											<!-- Button -->
-											<a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="{{url_for('showproduct',productcode=product[2],category='all')}}">
+											<a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="{{url_for('showproduct',productcode=product.code,category=product.category.lower())}}">
 												View Product
 											</a>
 										</div>

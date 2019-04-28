@@ -31,7 +31,7 @@
 				</h4>
 
 				<span class="m-text17">
-					{{product.description}}
+					{{product.name}}
 				</span>
 
 				<p class="s-text8 p-t-10">
@@ -46,12 +46,16 @@
 						</div>
 
 						<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+							
 							<select class="selection-2" name="size">
+								{% if sizes != 'Not Available' %}
 								<option>Choose an option</option>
-								<option>Size S</option>
-								<option>Size M</option>
-								<option>Size L</option>
-								<option>Size XL</option>
+								{% for size in sizes %}
+								<option>{{size}}</option>
+								{% endfor %}
+								{% else %}
+								<option selected disabled>{{sizes}}</option>
+								{% endif %}
 							</select>
 						</div>
 					</div>
@@ -63,11 +67,14 @@
 
 						<div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
 							<select class="selection-2" name="color">
-								<option>Choose an option</option>
-								<option>Gray</option>
-								<option>Red</option>
-								<option>Black</option>
-								<option>Blue</option>
+									{% if colors != 'Not Available' %}
+									<option>Choose an option</option>
+									{% for color in colors %}
+									<option>{{color}}</option>
+									{% endfor %}
+									{% else %}
+									<option selected disabled>{{colors}}</option>
+									{% endif %}
 							</select>
 						</div>
 					</div>
@@ -97,7 +104,7 @@
 				</div>
 
 				<div class="p-b-45">
-					<span class="s-text8 m-r-35">{{product.code}}</span>
+					<span class="s-text8 m-r-35">PRODUCT CODE : {{product.code}}</span>
 				<span class="s-text8">{{product.category}}</span>
 				</div>
 
