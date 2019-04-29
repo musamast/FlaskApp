@@ -70,7 +70,15 @@ def check_ext(filename, allowed=['png','jpg','jpeg']):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    imagesPath=[]
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS")
+    products=cur.fetchall()
+    cur.close()
+    for image in products:
+        # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
+        imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
+    return render_template('index.html',products=zip(imagesPath,products))
 
 @app.route('/<type>/')
 def showtype(type):
@@ -145,15 +153,16 @@ def showcategory(category):
     return redirect(url_for('shop'))
 
 @app.route('/shop/<category>/<productcode>/')
-def showproduct(productcode,category='qq'):
+def showproduct(category,productcode):
     imagesPath=[]
+    relatedImagesPath=[]
     # cur=connection.cursor()
     cur=mysql.connection.cursor()
     # prepare='SELECT * FROM PRODUCTS WHERE CODE= :code'
     # cur.execute(prepare,{'code':productcode})
     cur.execute("SELECT * FROM PRODUCTS WHERE CODE= %s",[productcode])
     product=cur.fetchone()
-    if len(product) > 0:     
+    if product is not None:     
         if product['pic1'] == '':
             imagesPath.append(url_for('static',filename="upload/default.jpg"))
         else:
@@ -174,8 +183,15 @@ def showproduct(productcode,category='qq'):
         if product['color'] != '':
             colors=product['color'].split(',')
         else:
-            colors='Not Available'        
-        return render_template('product-detail.html',product=product,imagesPath=imagesPath,sizes=sizes,colors=colors)
+            colors='Not Available'
+        cur.close()
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS WHERE category = %s AND type = %s",(category,product['type']))
+        relatedProducts=cur.fetchall()
+        cur.close()
+        for image in relatedProducts:
+            relatedImagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
+        return render_template('product-detail.html',product=product,imagesPath=imagesPath,sizes=sizes,colors=colors ,relatedProducts=zip(relatedProducts,relatedImagesPath))
     flash('Product Not Found !','danger')
     return redirect(url_for('showcategory',category=category))
 
