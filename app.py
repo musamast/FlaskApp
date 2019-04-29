@@ -1,5 +1,5 @@
 import os
-SECRET_KEY = os.urandom(32)
+import datetime
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
@@ -11,6 +11,7 @@ import secrets
 from PIL import Image
 
 app = Flask(__name__)
+SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 mysql = MySQL(app)
@@ -24,6 +25,24 @@ app.config['MYSQL_PASSWORD'] = "d8a0ef01"
 app.config['MYSQL_DB'] = "heroku_725bdcfeff15a40"
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 app.config['MYSQL_PORT'] = 3306
+
+# app.config['MYSQL_HOST'] = "localhost"
+# app.config['MYSQL_USER'] = "root"
+# app.config['MYSQL_PASSWORD'] = ""
+# app.config['MYSQL_DB'] = "myflaskapp"
+# app.config['MYSQL_CURSORCLASS'] = "DictCursor"
+
+def visitedUser(ip,link):
+    currentDT = datetime.datetime.now()
+    currentTime=currentDT.strftime("%I:%M:%S %p")
+    currentDate=currentDT.strftime("%b %d, %Y")
+    cur=mysql.connection.cursor()
+    cur.execute("INSERT INTO visitedusers(ip , link , timee , datee ) VALUES( %s , %s , %s , %s)",(ip , link, currentTime , currentDate))
+    mysql.connection.commit()
+    cur.close()
+
+
+
 
 
 
@@ -67,10 +86,13 @@ def check_ext(filename, allowed=['png','jpg','jpeg']):
 #         filename = ''
 #         return filename
 
-
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('notfound.html' ,title='404'), 404
+    
 @app.route('/')
 def home():
-    print(request.environ.get('HTTP_X_REAL_IP', request.remote_addr)+""+"current ip")
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)  
     imagesPath=[]
     cur = mysql.connection.cursor()
     cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS")
@@ -83,6 +105,7 @@ def home():
 
 @app.route('/<type>/')
 def showtype(type):
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     imagesPath=[]
     # cur =connection.cursor()
     cur =mysql.connection.cursor()
@@ -97,11 +120,11 @@ def showtype(type):
         # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
             imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
         return render_template('type.html', products=zip(imagesPath,products),title=type)
-    flash('Category Not Found !','danger')
-    return redirect(url_for('shop'))
+    return render_template('notfound.html',title='404') , 404
 
 @app.route('/shop/', methods=['GET', 'POST'])
 def shop():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     imagesPath=[]
     # cur=connection.cursor()
     cur=mysql.connection.cursor()
@@ -118,22 +141,26 @@ def shop():
 
 @app.route('/blog/')
 def blog():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     return render_template('blog.html')
 
 
 @app.route('/about/')
 def about():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     return render_template('about.html')
 
 
 @app.route('/contact/')
 def contact():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     return render_template('contact.html')
 
 
 
 @app.route('/shop/<category>/')
 def showcategory(category):
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     imagesPath=[]
     # cur=connection.cursor()
     cur=mysql.connection.cursor()
@@ -150,11 +177,11 @@ def showcategory(category):
             # imagesPath.append(url_for('static',filename=f'upload/{image[10]}'))
             imagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
         return render_template('product.html', products=zip(imagesPath,products),title=category)
-    flash('Category Not Found !','danger')
-    return redirect(url_for('shop'))
+    return render_template('notfound.html',title='404') , 404
 
 @app.route('/shop/<category>/<productcode>/')
 def showproduct(category,productcode):
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     imagesPath=[]
     relatedImagesPath=[]
     # cur=connection.cursor()
@@ -193,12 +220,12 @@ def showproduct(category,productcode):
         for image in relatedProducts:
             relatedImagesPath.append(url_for('static',filename=f"upload/{image['pic1']}"))
         return render_template('product-detail.html',product=product,imagesPath=imagesPath,sizes=sizes,colors=colors ,relatedProducts=zip(relatedProducts,relatedImagesPath))
-    flash('Product Not Found !','danger')
-    return redirect(url_for('showcategory',category=category))
+    return render_template('notfound.html',title='404') , 404
 
 
 @app.route('/admin/', methods=['GET', 'POST'])
 def admin():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     if request.method == 'POST':
         # GET FORM FIELDS
         username = request.form['username']
@@ -238,6 +265,7 @@ def admin():
 
 @app.route('/dashboard/')
 def dashboard():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     return render_template('dashboard.html')
 # @app.route('/dashboard/<category>')
 # def categorys():
@@ -245,6 +273,7 @@ def dashboard():
 
 @app.route('/addproduct/', methods=['POST', 'GET'])
 def add_product():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     form =  AddProductForm()
     if request.method == 'POST' and form.validate_on_submit():
         category = form.category.data
@@ -317,6 +346,7 @@ def add_product():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
+    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
     if request.method == 'POST':
         name = request.form['name']
         username = request.form['username']

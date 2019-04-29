@@ -21,6 +21,11 @@ CREATE TABLE products
   pic2 varchar(70)  ,
   pic3 varchar(70)  
 );
+CREATE TABLE visitedusers( id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    ip VARCHAR(35) NOT NULL,  
+  timee TIME NOT NULL,  
+  datee DATE  NOT NULL
+); 
 
 INSERT INTO products(category , name , code , type, color,
          sizee , price , quantity , description , pic1 , pic2 , pic3 ) 
