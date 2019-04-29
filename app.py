@@ -70,6 +70,7 @@ def check_ext(filename, allowed=['png','jpg','jpeg']):
 
 @app.route('/')
 def home():
+    print(request.environ.get('HTTP_X_REAL_IP', request.remote_addr)+""+"current ip")
     imagesPath=[]
     cur = mysql.connection.cursor()
     cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS")
