@@ -92,8 +92,13 @@ def not_found(error):
     
 @app.route('/')
 def home():
-    # visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)  
-    visitedUser(request.remote_addr,request.url)
+    # visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip=request.environ['REMOTE_ADDR']
+    else:
+        ip=request.environ['HTTP_X_FORWARDED_FOR'] 
+    visitedUser(ip,request.url)
+
     imagesPath=[]
     cur = mysql.connection.cursor()
     cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS")
