@@ -32,7 +32,11 @@ app.config['MYSQL_PORT'] = 3306
 # app.config['MYSQL_DB'] = "myflaskapp"
 # app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
-def visitedUser(ip,link):
+def visitedUser(request,link):
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip=request.environ['REMOTE_ADDR']
+    else:
+        ip=request.environ['HTTP_X_FORWARDED_FOR']
     currentDT = datetime.datetime.now()
     currentTime=currentDT.strftime("%I:%M:%S %p")
     currentDate=currentDT.strftime("%b %d, %Y")
@@ -92,12 +96,9 @@ def not_found(error):
     
 @app.route('/')
 def home():
-    # visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        ip=request.environ['REMOTE_ADDR']
-    else:
-        ip=request.environ['HTTP_X_FORWARDED_FOR'] 
-    visitedUser(ip,request.url)
+    # visitedUser(request,request.url)
+     
+    visitedUser(request,request.url)
 
     imagesPath=[]
     cur = mysql.connection.cursor()
@@ -111,7 +112,7 @@ def home():
 
 @app.route('/<type>/')
 def showtype(type):
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     imagesPath=[]
     # cur =connection.cursor()
     cur =mysql.connection.cursor()
@@ -130,7 +131,7 @@ def showtype(type):
 
 @app.route('/shop/', methods=['GET', 'POST'])
 def shop():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     imagesPath=[]
     # cur=connection.cursor()
     cur=mysql.connection.cursor()
@@ -147,26 +148,26 @@ def shop():
 
 @app.route('/blog/')
 def blog():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     return render_template('blog.html')
 
 
 @app.route('/about/')
 def about():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     return render_template('about.html')
 
 
 @app.route('/contact/')
 def contact():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     return render_template('contact.html')
 
 
 
 @app.route('/shop/<category>/')
 def showcategory(category):
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     imagesPath=[]
     # cur=connection.cursor()
     cur=mysql.connection.cursor()
@@ -187,7 +188,7 @@ def showcategory(category):
 
 @app.route('/shop/<category>/<productcode>/')
 def showproduct(category,productcode):
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     imagesPath=[]
     relatedImagesPath=[]
     # cur=connection.cursor()
@@ -231,7 +232,7 @@ def showproduct(category,productcode):
 
 @app.route('/admin/', methods=['GET', 'POST'])
 def admin():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     if request.method == 'POST':
         # GET FORM FIELDS
         username = request.form['username']
@@ -271,7 +272,7 @@ def admin():
 
 @app.route('/dashboard/')
 def dashboard():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     return render_template('dashboard.html')
 # @app.route('/dashboard/<category>')
 # def categorys():
@@ -279,7 +280,7 @@ def dashboard():
 
 @app.route('/addproduct/', methods=['POST', 'GET'])
 def add_product():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     form =  AddProductForm()
     if request.method == 'POST' and form.validate_on_submit():
         category = form.category.data
@@ -352,7 +353,7 @@ def add_product():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
-    visitedUser(request.environ.get('HTTP_X_REAL_IP', request.remote_addr),request.url)
+    visitedUser(request,request.url)
     if request.method == 'POST':
         name = request.form['name']
         username = request.form['username']
