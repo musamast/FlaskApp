@@ -39,7 +39,6 @@ def home():
     # visitedUser(request,request.url)
      
     visitedUser(request,request.url)
-
     imagesPath=[]
     cur = mysql.connection.cursor()
     cur.execute("SELECT name,code,price,pic1,category FROM PRODUCTS")
@@ -373,7 +372,7 @@ def userlogin():
                 session['username'] = username
                 cur.close()
                 flash("You are now logged in ", 'primary')
-                return redirect(url_for('dashboard'))
+                return render_template('index.html')
                 # return 'log in'
             else:
                 error = "Invalid Password"
