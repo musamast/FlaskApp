@@ -14,7 +14,23 @@
         </div>
 {% endif %}
 {% endmacro %}
-<!--   
+
+{% macro render_field2(field) %}
+{{ field.label(class="txt1 p-b-11") }}
+{% if field.errors %}
+    <div class="wrap-input100 validate-input m-b-36 alert-validate" data-validate="{{field.errors[0]}}">
+        {{ field(**kwargs)|safe }}
+        <span class="focus-input100"></span>
+      </div>
+{% else %}
+    <div class="wrap-input100 validate-input m-b-36" data-validate=''>
+        {{ field(**kwargs)|safe }}
+        <span class="focus-input100"></span>
+        </div>
+{% endif %}
+{% endmacro %}
+
+<!--    
   
   <div class="wrap-input100 validate-input" data-validate="Select Category">
         <span class="label-input100">Category</span>

@@ -1,8 +1,9 @@
 -- users table
-CREATE TABLE users  
+CREATE TABLE admins  
 ( id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    name varchar(35) NOT NULL,  
-  username varchar(20) NOT NULL,  
+    name varchar(30) NOT NULL,  
+  username varchar(30) NOT NULL,
+  email varchar(30) NOT NULL,  
   password varchar(100)  NOT NULL
 );  
 
@@ -27,6 +28,13 @@ CREATE TABLE visitedusers( id INT(11) AUTO_INCREMENT PRIMARY KEY,
   timee VARCHAR(35) NOT NULL,  
   datee VARCHAR(35 ) NOT NULL
 ); 
+CREATE TABLE customers  
+( id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name varchar(30) NOT NULL,  
+  username varchar(30) NOT NULL,
+  email varchar(30) NOT NULL,  
+  password varchar(100)  NOT NULL
+);
 
 INSERT INTO products(category , name , code , type, color,
          sizee , price , quantity , description , pic1 , pic2 , pic3 ) 
