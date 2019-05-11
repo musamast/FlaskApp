@@ -2,7 +2,7 @@ import os
 import datetime
 from FlaskApp import app, mysql
 import secrets
-import ipinfo
+# import ipinfo
 from PIL import Image
 
 def visitedUser(request,link):

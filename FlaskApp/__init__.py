@@ -7,9 +7,9 @@ app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-SESSION_TYPE = 'redis'
+# SESSION_TYPE = 'redis'
 app.config.from_object(__name__)
-Session(app)
+sess = Session()
 
 mysql = MySQL(app)
 
