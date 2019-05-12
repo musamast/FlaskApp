@@ -1,6 +1,6 @@
 import os
 from flask import Flask,session
-from flask_session.__init__ import Session
+# from flask_session.__init__ import Session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -8,8 +8,8 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # SESSION_TYPE = 'redis'
-app.config.from_object(__name__)
-sess = Session()
+# app.config.from_object(__name__)
+# sess = Session()
 
 mysql = MySQL(app)
 
