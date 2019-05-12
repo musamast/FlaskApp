@@ -1,4 +1,4 @@
-from FlaskApp import app,sess
+from FlaskApp import app
 
 if __name__ == '__main__':
     # app.secret_key = 'super secret key'
