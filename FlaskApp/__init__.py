@@ -17,9 +17,9 @@ app.config['UPLOAD_FOLDER'] = 'static/upload'
 
 # Config MySQL
 app.config['MYSQL_HOST'] = "us-cdbr-iron-east-02.cleardb.net"
-app.config['MYSQL_USER'] = "beeb27dc4ba1c5"
-app.config['MYSQL_PASSWORD'] = "d8a0ef01"
-app.config['MYSQL_DB'] = "heroku_725bdcfeff15a40"
+app.config['MYSQL_USER'] = "b10f7d5e54fb9f"
+app.config['MYSQL_PASSWORD'] = "15302639"
+app.config['MYSQL_DB'] = "heroku_4cecaa710a0e256"
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 app.config['MYSQL_PORT'] = 3306
 
