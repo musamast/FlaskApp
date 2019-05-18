@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
-	<title>Home</title>
+	{% if title %}
+	<title>{{title}}</title>
+	{% else %}
+	<title>Fashe</title>
+	{% endif %}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -62,9 +66,6 @@
 					<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
 				</div>
 
-				<span class="topbar-child1">
-					Free shipping for standard order over 5000 PKR
-				</span>
 
 				<div class="topbar-child2">
 					<span class="topbar-email">
@@ -124,7 +125,7 @@
 										</ul>
 										</nav>
 										</div>
-						Hello , Name &nbsp;&nbsp;
+						Hello , {{session['name']}} &nbsp;&nbsp;
 						
 
 					<span class="linedivide1"></span>
@@ -162,7 +163,9 @@
 							</ul>
 
 							<div class="header-cart-total">
-								Total: 00.00 PKR
+								{% if 'total' in session %}
+								Total: {{session['total']}} PKR
+								{% endif %}
 							</div>
 
 							<div class="header-cart-buttons">
@@ -236,7 +239,7 @@
 											</ul>
 											</nav>
 											</div>
-							Hello , Name &nbsp;&nbsp;
+							Hello , {{session['name']}} &nbsp;&nbsp;
 							
 	
 						<span class="linedivide2"></span>
@@ -270,7 +273,7 @@
 								</ul>
 	
 								<div class="header-cart-total">
-									Total: $75.00
+									Total: {{session['total']}} PKR
 								</div>
 	
 								<div class="header-cart-buttons">
@@ -366,41 +369,7 @@
 	{% block page_content %}{% endblock %}
 
 	<!-- Shipping -->
-	<section class="shipping bgwhite p-t-62 p-b-46">
-		<div class="flex-w p-l-15 p-r-15">
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Free Delivery Worldwide
-				</h4>
-
-				<a href="#" class="s-text11 t-center">
-					Click here for more info
-				</a>
-			</div>
-
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
-				<h4 class="m-text12 t-center">
-					30 Days Return
-				</h4>
-
-				<span class="s-text11 t-center">
-					Simply return it within 30 days for an exchange.
-				</span>
-			</div>
-
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Store Opening
-				</h4>
-
-				<span class="s-text11 t-center">
-					Shop open from Monday to Sunday
-				</span>
-			</div>
-		</div>
-	</section>
-
-
+	
 	<!-- Footer -->
 	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
 		<div class="flex-w p-b-90">
@@ -432,26 +401,52 @@
 
 				<ul>
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
+						<a href="{{url_for('showcategory',category='men')}}" class="s-text7">
 							Men
 						</a>
 					</li>
 
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
+						<a href="{{url_for('showcategory',category='women')}}" class="s-text7">
 							Women
 						</a>
 					</li>
 
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
+						<a href="{{url_for('showcategory',category='kids')}}" class="s-text7">
+							Kids
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Types
+				</h4>
+
+				<ul>
+					<li class="p-b-9">
+						<a href="{{url_for('showtype',type='watches')}}" class="s-text7">
+							Watches
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="{{url_for('showtype',type='sunglasses')}}" class="s-text7">
+							Sunglasses
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="{{url_for('showtype',type='dresses')}}" class="s-text7">
 							Dresses
 						</a>
 					</li>
 
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Sunglasses
+						<a href="{{url_for('showtype',type='wallets')}}" class="s-text7">
+							Wallets
 						</a>
 					</li>
 				</ul>
@@ -464,58 +459,20 @@
 
 				<ul>
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Search
-						</a>
-					</li>
-
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							About Us
-						</a>
-					</li>
-
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
+						<a href="{{url_for('contact')}}" class="s-text7">
 							Contact Us
 						</a>
 					</li>
 
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Returns
-						</a>
-					</li>
-				</ul>
-			</div>
-
-			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
-				<h4 class="s-text12 p-b-30">
-					Help
-				</h4>
-
-				<ul>
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Track Order
+						<a href="{{url_for('blog')}}" class="s-text7">
+							Blog
 						</a>
 					</li>
 
 					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Returns
-						</a>
-					</li>
-
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Shipping
-						</a>
-					</li>
-
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							FAQs
+						<a href="{{url_for('about')}}" class="s-text7">
+							About
 						</a>
 					</li>
 				</ul>

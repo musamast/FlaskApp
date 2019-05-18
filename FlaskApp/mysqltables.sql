@@ -1,4 +1,4 @@
--- users table
+-- admin table
 CREATE TABLE admins  
 ( id INT(11) AUTO_INCREMENT PRIMARY KEY,
     name varchar(30) NOT NULL,  
@@ -7,6 +7,8 @@ CREATE TABLE admins
   password varchar(100)  NOT NULL
 );  
 
+
+-- product table
 CREATE TABLE products  
 ( category varchar(15) NOT NULL,  
   name varchar(50) NOT NULL,
@@ -18,16 +20,22 @@ CREATE TABLE products
   quantity int NOT NULL,  
   description varchar(200)  NOT NULL,
   uploaddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  pic1 varchar(70)  NOT NULL,
+  pic1 varchar(70),
   pic2 varchar(70)  ,
   pic3 varchar(70)  
 );
+
+
+-- visited users'ip table
 CREATE TABLE visitedusers( id INT(11) AUTO_INCREMENT PRIMARY KEY,
     ip VARCHAR(35) NOT NULL,
     link VARCHAR(70) NOT NULL,  
   timee VARCHAR(35) NOT NULL,  
   datee VARCHAR(35 ) NOT NULL
-); 
+);
+
+
+-- customer table
 CREATE TABLE customers  
 ( id INT(11) AUTO_INCREMENT PRIMARY KEY,
     name varchar(30) NOT NULL,  
@@ -36,7 +44,32 @@ CREATE TABLE customers
   password varchar(100)  NOT NULL
 );
 
-INSERT INTO products(category , name , code , type, color,
-         sizee , price , quantity , description , pic1 , pic2 , pic3 ) 
-         VALUES('category' , 'name' , 'code' , 'type', 'color',
-         'sizee' , 40 , 10 , 'description', 'pic1' , 'pic2' , 'pic3')
+
+-- Invoice table
+CREATE TABLE invoice
+( orderid INT(25) PRIMARY KEY NOT NULL,  
+  customerid INT(11) NOT NULL ,
+  country VARCHAR(20) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  orderdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  totalamount INT(25) NOT NULL,
+  deliverystatus VARCHAR(10) NOT NULL,
+  delivereddate DATE,
+    FOREIGN KEY (customerid)
+   REFERENCES customers(id)
+     ON DELETE CASCADE  
+);
+
+
+-- orders table
+CREATE TABLE orders
+( orderid INT(25) NOT NULL,  
+  productid VARCHAR(20) NOT NULL ,
+  quantity INT(11) NOT NULL,
+  sellingprice INT(20) NOT NULL,
+  costprice INT(20) NOT NULL,
+  CONSTRAINT PK_orders PRIMARY KEY (orderid,productid),
+    FOREIGN KEY (productid)
+   REFERENCES products(CODE)
+     ON DELETE CASCADE  
+);

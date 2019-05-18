@@ -1,5 +1,7 @@
 import os
 import datetime
+from flask import render_template, request, flash, redirect, url_for, session
+from functools import wraps
 from FlaskApp import app, mysql
 import secrets
 # import ipinfo
@@ -56,6 +58,29 @@ def check_ext(filename, allowed=['png','jpg','jpeg']):
     if ex.lower() in allowed:
         return True
     return False
+
+def user_login_required(g):
+    @wraps(g)
+    def wrap(*args , **kwargs):
+        if 'user_logged_in' in session:
+            return g(*args , **kwargs)
+        else:
+            flash(" Please login first " , "danger")
+            return redirect(url_for('userlogin'))
+    return wrap
+
+
+def admin_login_required(g):
+    @wraps(g)
+    def wrap(*args , **kwargs):
+        if 'admin_logged_in' in session:
+            return g(*args , **kwargs)
+        else:
+            flash(" Please login first " , "danger")
+            return redirect(url_for('admin'))
+    return wrap
+
+
 
 
 # def checkImg(file):

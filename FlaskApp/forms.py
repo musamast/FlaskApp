@@ -5,7 +5,7 @@ from flask_wtf.file import FileField, FileRequired
 class AddProductForm(FlaskForm):
     category = SelectField('Category',choices=[('Men','Men'),('Women','Women'),('Kids','Kids')] )
     name = StringField('Product Name',[validators.Length(min=5 , max=50)])
-    code = StringField('Product Code',[validators.Length(min=1 , max=50)] )
+    code = StringField('Product Code' )
     pro_type = SelectField('Type',choices=[('Dresses','Dresses'),('Watches','Watches'),
                                             ('Wallets','Wallets'),('Footerwear','Footerwear'),('Sunglasses','Sunglasses')])
     color = StringField("Colors(Separated by ' , ' )",[validators.Length(min=3 , max=100)])
@@ -13,7 +13,7 @@ class AddProductForm(FlaskForm):
     price = DecimalField('Price')
     quantity = IntegerField('Quantity')
     description = TextAreaField('Description',[validators.Length(min=10 )])
-    image1 = FileField('Image 1',validators=[FileRequired()])
+    image1 = FileField('Image 1')
     image2 = FileField('Image 2')
     image3 = FileField('Image 3')
 

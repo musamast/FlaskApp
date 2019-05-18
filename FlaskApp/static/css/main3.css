@@ -451,7 +451,8 @@ textarea.input100 {
 [ in select ]*/
 .select2-container .select2-selection--single .select2-selection__rendered {
   font-family: Poppins-Medium;
-  font-size: 18px;
+  font-size: 14px;
+  overflow: auto;
   color: #333333;
   line-height: 1.2;
   padding-left: 5px ;
@@ -473,28 +474,7 @@ textarea.input100 {
   justify-content: center;
 }
 
-.select2-selection__arrow b {
-  display: none;
-}
 
-.select2-selection__arrow::before {
-  content: '';
-  display: block;
-  
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  border-bottom: 5px solid #999999;
-  margin-bottom: 2px;
-}
-
-.select2-selection__arrow::after {
-  content: '';
-  display: block;
-  
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  border-top: 5px solid #999999;
-}
 
 /*------------------------------------------------------------------
 [ Dropdown option ]*/
@@ -531,7 +511,7 @@ textarea.input100 {
 
 .select2-results__options {
   font-family: Poppins-Medium;
-  font-size: 18px;
+  font-size: 14px;
   color: #333333;
   line-height: 1.2;
 }
@@ -561,7 +541,7 @@ textarea.input100 {
 
 
 .real-input {
-  background:#e65540;
+  background:gainsboro;
   font-family: Poppins-Regular;
   font-size: 13px;
   color: #666666;

@@ -2,7 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V14</title>
+		{% if title %}
+		<title>{{title}}</title>
+		{% else %}
+		<title>Fashe</title>
+		{% endif %}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -94,11 +98,13 @@
 					</div>
 
 				</form>
+				{% if title== 'User Registration' %}
 				<div class="border-top pt-3">
 						<small class="text-muted">
 								Already Have An Account? <a class="ml-2" href="{{ url_for('userlogin') }}">Sign In</a>
 						</small>
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>

@@ -14,27 +14,28 @@
         <form class="contact100-form" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <span class="contact100-form-title">
-                Product Details
+              {{update}} Product Details
             </span>
-            {{render_field(form.category , class_="selection-1",selected=['men'])}}
+            {{render_field(form.category , class_="selection-1")}}
 
-            {{render_field(form.name , class_="input100")}}
+            {{render_field(form.name , class_="input100" ,value=product.name)}}
 
-            {{render_field(form.code , class_="input100" , required=True)}}
+            {{render_field(form.code , class_="input100" ,disabled=True ,value=product.code)}}
 
             {{render_field(form.pro_type , class_="selection-1")}}
 
-            {{render_field(form.color , class_="input100")}}
+            {{render_field(form.color , class_="input100" ,value=product.color)}}
 
-            {{render_field(form.size , class_="input100")}}
+            {{render_field(form.size , class_="input100",value=product.sizee)}}
 
-            {{render_field(form.price , class_="input100")}}
+            {{render_field(form.price , class_="input100",value=product.price)}}
 
-            {{render_field(form.quantity , class_="input100")}}
+            {{render_field(form.quantity , class_="input100" , value=product.quantity)}}
 
-            {{render_field(form.description , class_="input100")}}
-            <div class="row ">
-                <div class="col-sm-4">
+            {{render_field(form.description, class_="input100" )}}
+
+            <div class="row " id=imagesRow>
+                <div class="col-sm-5">
                     <div class="form-group">
                         {{ form.image1.label() }}
                         {{ form.image1(class="real-input") }}
@@ -45,7 +46,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <div class="form-group">
                         {{ form.image2.label() }}
                         {{ form.image2(class="real-input") }}
@@ -69,6 +70,7 @@
                 </div>
             </div>
 
+
             <div class="container-contact100-form-btn">
                 <div class="wrap-contact100-form-btn">
                     <div class="contact100-form-bgbtn"></div>
@@ -77,11 +79,41 @@
                             Submit
                             <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
                         </span>
-                    </button>
+                    </button> 
+                </div>
+            </div> 
+        </form>
+        <div class="container-contact100-form-btn">
+                <div class="wrap-contact100-form-btn">
+                    <div class="contact100-form-bgbtn"></div>
+                    <button class="contact100-form-btn" onclick="displayImageInput()">
+                        <span>
+                           Update Images
+                            <i class="fa fa-file-image-o m-l-7" aria-hidden="true"></i>
+                        </span>
+                    </button> 
                 </div>
             </div>
-        </form>
     </div>
 </div>
+<script>
+        SelectElement("category", '{{product.category}}')
+        SelectElement("pro_type", '{{product.type}}')
+        SelectElement("description", '{{product.description}}')
+        
+        document.getElementById('imagesRow').style.display='None'
 
+        function displayImageInput()
+        {    
+                document.getElementById('imagesRow').style.display='Block';
+
+        }
+
+        function SelectElement(id, valueToSelect)
+        {    
+            var element = document.getElementById(id);
+            element.value = valueToSelect;
+        }
+        
+        </script>
 {% endblock page_content %}
