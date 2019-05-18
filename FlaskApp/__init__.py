@@ -4,8 +4,8 @@ from flask import Flask,session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
+# SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
 
 # SESSION_TYPE = 'redis'
 # app.config.from_object(__name__)
