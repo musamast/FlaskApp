@@ -176,7 +176,7 @@ th, td {
 }
 
 .column1 {
-  width: 33%;
+  width: 13%;
   padding-left: 40px;
 }
 
@@ -185,16 +185,13 @@ th, td {
 }
 
 .column3 {
-  width: 22%;
+  width: 13%;
 }
 
 .column4 {
-  width: 19%;
+  width: 12%;
 }
 
-.column5 {
-  width: 13%;
-}
 
 .table100-head th {
   padding-top: 18px;

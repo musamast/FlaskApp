@@ -1,6 +1,5 @@
 {% extends "layout2.html" %}
 {% block page_content %}
-
 <div class="limiter">
         <div class="container-table100">
           <div class="wrap-table100">
@@ -9,11 +8,10 @@
                 <table>
                   <thead>
                     <tr class="row100 head">
-                      <th class="cell100 column1">Class name</th>
-                      <th class="cell100 column2">Type</th>
-                      <th class="cell100 column3">Hours</th>
-                      <th class="cell100 column4">Trainer</th>
-                      <th class="cell100 column5">Spots</th>
+                      <th class="cell100 column1">Order Id</th>
+                      <th class="cell100 column2">Order Date</th>
+                      <th class="cell100 column3">Delivery Status</th>
+                      <th class="cell100 column4"></th>
                     </tr>
                   </thead>
                 </table>
@@ -22,181 +20,35 @@
               <div class="table100-body js-pscroll">
                 <table>
                   <tbody>
+                    
+                    {% for order in records%}
                     <tr class="row100 body">
-                      <td class="cell100 column1">Like a butterfly</td>
-                      <td class="cell100 column2">Boxing</td>
-                      <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                      <td class="cell100 column4">Aaron Chapman</td>
-                      <td class="cell100 column5">10</td>
+                      <td class="cell100 column1">{{order.orderid}}</td>
+                      <td class="cell100 column2">{{order.orderdate}}</td>
+                      <td class="cell100 column3"><div class="form-check">
+                          <input class="form-check-input" type="radio" name="{{order.orderid}}" id="exampleRadios1" value="option1" checked>
+                          <label class="form-check-label" for="exampleRadios1">
+                            Pending
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="{{order.orderid}}" id="exampleRadios2" value="option2">
+                          <label class="form-check-label" for="exampleRadios2">
+                           Delivered
+                          </label>
+                        </div></td>
+                      <td class="cell100 column4"><div class="size15 trans-0-4">
+                          <!-- Button -->
+                          <a href="{{url_for('update_orders',orderid=order.orderid)}}" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
+                            
+                            Update
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                         
+                        </a>
+                        </div></td>
                     </tr>
+                    {% endfor %}
   
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Mind & Body</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Adam Stewart</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Crit Cardio</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">9:00 AM - 10:00 AM</td>
-                      <td class="cell100 column4">Aaron Chapman</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Wheel Pose Full Posture</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">7:00 AM - 8:30 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Playful Dancer's Flow</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Zumba Dance</td>
-                      <td class="cell100 column2">Dance</td>
-                      <td class="cell100 column3">5:00 PM - 7:00 PM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Cardio Blast</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">5:00 PM - 7:00 PM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Pilates Reformer</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Supple Spine and Shoulders</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">6:30 AM - 8:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Yoga for Divas</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Virtual Cycle</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Like a butterfly</td>
-                      <td class="cell100 column2">Boxing</td>
-                      <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                      <td class="cell100 column4">Aaron Chapman</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Mind & Body</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Adam Stewart</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Crit Cardio</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">9:00 AM - 10:00 AM</td>
-                      <td class="cell100 column4">Aaron Chapman</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Wheel Pose Full Posture</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">7:00 AM - 8:30 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Playful Dancer's Flow</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Zumba Dance</td>
-                      <td class="cell100 column2">Dance</td>
-                      <td class="cell100 column3">5:00 PM - 7:00 PM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Cardio Blast</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">5:00 PM - 7:00 PM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Pilates Reformer</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">10</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Supple Spine and Shoulders</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">6:30 AM - 8:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">15</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Yoga for Divas</td>
-                      <td class="cell100 column2">Yoga</td>
-                      <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                      <td class="cell100 column4">Donna Wilson</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
-  
-                    <tr class="row100 body">
-                      <td class="cell100 column1">Virtual Cycle</td>
-                      <td class="cell100 column2">Gym</td>
-                      <td class="cell100 column3">8:00 AM - 9:00 AM</td>
-                      <td class="cell100 column4">Randy Porter</td>
-                      <td class="cell100 column5">20</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>

@@ -39,7 +39,7 @@
 									{{item.quantity}}
 								
 							</td>
-							<td class="column-5">$16.00</td>
+							<td class="column-5">{{session['total']}}</td>
 						</tr>
 						{% endfor %}
 						
@@ -81,8 +81,7 @@
 						</span>
 
 						<div class="rs2-select2 rs3-select2 rs4-select2 bo4 of-hidden w-size21 m-t-8 m-b-12">
-							<select class="selection-2" name="country">
-								<option>Select a City...</option>
+							<select class="selection-2" name="city" required>
 								<option>Karachi</option>
 								<option>Hyderabad</option>
 								<option>Lahore</option>
@@ -90,11 +89,11 @@
 						</div>
 
 						<div class="size13 bo4 m-b-12">
-						<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="address" placeholder="Complete Address ">
+						<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="address" placeholder="Complete Address " >
 						</div>
 
 						<div class="size13 bo4 m-b-22">
-							<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="postcode" placeholder="Postcode / Zip">
+							<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="postcode" placeholder="Postcode / Zip" >
 						</div>
 					</div>
 				</div>

@@ -199,6 +199,7 @@ def userlogin():
                 session['user_logged_in'] = True
                 session['username'] = username
                 session['name'] = data['name']
+                session['user_id'] =data['id']
                 cur.close()
                 flash("You are now logged in ", 'primary')
                 return render_template('index.html')
@@ -251,16 +252,62 @@ def cart():
         if 'update' in request.form:
            session.pop('cart', None)
         if 'checkout' in request.form:
-            country=request.form['country']
-            address=request.form['address']
-            postcode=request.form['postcode']
+            if 'user_logged_in' in session:
+                city=request.form['city']
+                address=request.form['address']
+                # postcode=request.form['postcode']
+                customerid=session['user_id']
+                total=session['total']
+                deliverystatus='pending'
+                cur = mysql.connection.cursor()
+                cur.execute("SELECT max(orderid) as neworderid FROM invoice")
+                orderid=cur.fetchone()
+                cur.close()
+                if orderid['neworderid'] is None:
+                    orderid=1
+                else:
+                    orderid=orderid['neworderid']+1
+                cur=mysql.connection.cursor()
+                cur.execute(""" INSERT INTO invoice(orderid , customerid , city , address , totalamount , deliverystatus)
+                 VALUES( %s , %s , %s , %s , %s , %s)""",
+                 (orderid , customerid , city , address , total , deliverystatus))
+                
+                for item in session['cart']:
+                    productid=item['product']['code']
+                    sellingprice=item['product']['price']
+                    costprice=item['product']['price']
+                    quantity=item['quantity']
+                    color=item['color']
+                    size=item['size']
+                    sql="""INSERT INTO orders(orderid , productid , quantity , sellingprice , costprice, color,size)
+                    VALUES(%s , %s , %s , %s , %s , %s , %s) """
+                    values=(orderid , productid , quantity , sellingprice , costprice , color , size)
+                    cur.execute(sql,values)
+                mysql.connection.commit()    
+                cur.close()
+                flash(f"Order Confirmed , order id : {orderid}" , "danger")
+                session.pop('cart', None)
+                return redirect(url_for('home'))
+            else:
+                flash(" Please login first " , "danger")
+                return redirect(url_for('userlogin'))
+
+
+
+
+
 
 
 
 
     return render_template('cart.html',title='Cart')
 
-
+@app.route('/logout/')
+@user_login_required
+def userlogout():
+    session.clear()
+    flash("You are now logged out" , "success")
+    return redirect(url_for('home'))
 #### Admin routes ###
 
 @app.route('/admin/', methods=['GET', 'POST']) ## route for admin login
@@ -461,12 +508,30 @@ def update_product(category,productcode):
 @app.route('/admin/pendingorders/')
 @admin_login_required
 def pending_orders():
-    return render_template('pendingorder.html',title='Pending Orders')
+    cur=mysql.connection.cursor()
+    cur.execute("SELECT * FROM INVOICE WHERE DELIVERYSTATUS = %s",['pending'])
+    records=cur.fetchall()
+    cur.close()
+    return render_template('pendingorder.html',title='Pending Orders',records=records)
+
+@app.route('/admin/pendingorders/<orderid>/')
+@admin_login_required
+def update_orders(orderid):
+    cur=mysql.connection.cursor()
+    cur.execute("UPDATE INVOICE SET DELIVERYSTATUS=%s WHERE ORDERID=%s",('delivered',int(orderid)))
+    mysql.connection.commit()
+    cur.close()
+    return redirect(url_for('pending_orders'))
+
 
 @app.route('/admin/salesrecord/')
 @admin_login_required
 def sales_record():
-    pass
+    cur=mysql.connection.cursor()
+    cur.execute("SELECT * FROM INVOICE")
+    records=cur.fetchall()
+    cur.close()
+    return render_template('salesrecord.html',title='Sales Record',records=records)
 
 @app.route('/admin/findcustomer/')
 @admin_login_required
@@ -584,3 +649,9 @@ def register():
         return redirect(url_for('home'))
     return render_template("register.html",form=form,user='admin',title='Admin Registration')
 
+@app.route('/logout/')
+@admin_login_required
+def adminlogout():
+    session.clear()
+    flash("You are now logged out" , "success")
+    return redirect(url_for('home'))

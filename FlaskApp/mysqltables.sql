@@ -49,7 +49,7 @@ CREATE TABLE customers
 CREATE TABLE invoice
 ( orderid INT(25) PRIMARY KEY NOT NULL,  
   customerid INT(11) NOT NULL ,
-  country VARCHAR(20) NOT NULL,
+  city VARCHAR(20) NOT NULL,
   address VARCHAR(100) NOT NULL,
   orderdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   totalamount INT(25) NOT NULL,
@@ -66,8 +66,10 @@ CREATE TABLE orders
 ( orderid INT(25) NOT NULL,  
   productid VARCHAR(20) NOT NULL ,
   quantity INT(11) NOT NULL,
+  size varchar(15) ,
   sellingprice INT(20) NOT NULL,
   costprice INT(20) NOT NULL,
+  color VARCHAR(15),
   CONSTRAINT PK_orders PRIMARY KEY (orderid,productid),
     FOREIGN KEY (productid)
    REFERENCES products(CODE)

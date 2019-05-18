@@ -78,7 +78,7 @@
 
 			<div class="wrap_header">
 				<!-- Logo -->
-				<a href="index.html" class="logo">
+				<a href="{{url_for('home')}}" class="logo">
 					<img src="{{url_for('static',filename='images/icons/logo.png')}}" alt="IMG-LOGO">
 				</a>
 
@@ -118,14 +118,19 @@
 											<img src="{{url_for('static',filename='images/icons/icon-header-01.png')}}" class="header-icon1"
 											alt="ICON">
 											<ul class="sub_menu">
+												{% if session['user_logged_in'] %}
+												<li><a href="{{url_for('userlogout')}}">Log Out</a></li>
+												{% else %}
 												<li><a href="{{url_for('userlogin')}}">Log In</a></li>
 												<li><a href="{{url_for('userreg')}}">Sign up</a></li>
+												{% endif %}
+
 											</ul>
 										</li>
 										</ul>
 										</nav>
 										</div>
-						Hello , {{session['name']}} &nbsp;&nbsp;
+						Hello ,<br>{{session['name']}} &nbsp;&nbsp;
 						
 
 					<span class="linedivide1"></span>
@@ -232,14 +237,19 @@
 												<img src="{{url_for('static',filename='images/icons/icon-header-01.png')}}" class="header-icon1"
 												alt="ICON">
 												<ul class="sub_menu">
-													<li><a href="{{url_for('userlogin')}}">Log In</a></li>
-													<li><a href="{{url_for('userreg')}}">Sign up</a></li>
+														{% if session['user_logged_in'] %}
+														<li><a href="{{url_for('userlogout')}}">Log Out</a></li>
+														{% else %}
+														<li><a href="{{url_for('userlogin')}}">Log In</a></li>
+														<li><a href="{{url_for('userreg')}}">Sign up</a></li>
+														{% endif %}
+		
 												</ul>
 											</li>
 											</ul>
 											</nav>
 											</div>
-							Hello , {{session['name']}} &nbsp;&nbsp;
+							Hello ,<br>{{session['name']}} &nbsp;&nbsp;
 							
 	
 						<span class="linedivide2"></span>

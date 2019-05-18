@@ -1,0 +1,46 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+<div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-head">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">Order Id</th>
+                      <th class="cell100 column2">Customer Id</th>
+                      <th class="cell100 column3">Address</th>
+                      <th class="cell100 column4">Order Date</th>
+                      <th class="cell100 column4">Total Amount</th>
+                      <th class="cell100 column4">Delivery Status</th>
+                      <th class="cell100 column4">Delivery Date</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+  
+              <div class="table100-body js-pscroll">
+                <table>
+                  <tbody>
+                    
+                    {% for order in records%}
+                    <tr class="row100 body" style="text-align:center;" >
+                      <td class="cell100 column1">{{order.orderid}}</td>
+                      <td class="cell100 column2">{{order.customerid}}</td>
+                      <td class="cell100 column3">{{order.address}}</td>
+                      <td class="cell100 column4">{{order.orderdate}}</td>
+                      <td class="cell100 column4">{{order.totalamount}}</td>
+                      <td class="cell100 column4">{{order.deliverystatus}}</td>
+                      <td class="cell100 column4">{{order.deliverydate}}</td>
+                    </tr>
+                    {% endfor %}
+  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock page_content %}
