@@ -39,7 +39,7 @@
 									{{item.quantity}}
 								
 							</td>
-							<td class="column-5">{{session['total']}}</td>
+							<td class="column-5">{{item.producttotal}}</td>
 						</tr>
 						{% endfor %}
 						
@@ -59,6 +59,7 @@
 					</button>
 				</div>
 			</div>
+</form>
 
 			<!-- Total -->
 			<div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
@@ -79,7 +80,7 @@
 						<span class="s-text19">
 							Address
 						</span>
-
+						<form method="POST">
 						<div class="rs2-select2 rs3-select2 rs4-select2 bo4 of-hidden w-size21 m-t-8 m-b-12">
 							<select class="selection-2" name="city" required>
 								<option>Karachi</option>
@@ -89,11 +90,11 @@
 						</div>
 
 						<div class="size13 bo4 m-b-12">
-						<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="address" placeholder="Complete Address " >
+						<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="address" placeholder="Complete Address" required >
 						</div>
 
 						<div class="size13 bo4 m-b-22">
-							<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="postcode" placeholder="Postcode / Zip" >
+							<input class="sizefull s-text7 p-l-15 p-r-15" type="text" name="postcode" placeholder="Postcode / Zip"  required>
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,44 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+<div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-head">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">Order Id</th>
+                      <th class="cell100 column2">Product Id</th>
+                      <th class="cell100 column3">Quantity</th>
+                      <th class="cell100 column4">Size</th>
+                      <th class="cell100 column4">Color</th>
+                      <th class="cell100 column4">Selling Price</th>
+                      <th class="cell100 column4">Cost Price</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+  
+              <div class="table100-body js-pscroll">
+                <table>
+                  <tbody>
+                      {% for order in orders%}
+                    <tr class="row100 body" >
+                      <td class="cell100 column1">{{order.orderid}}</td>
+                      <td class="cell100 column2"><a href="{{url_for('dashboard_products',category='all',productcode=order.productid)}}">{{order.productid}}&nbsp;&nbsp;Check Details</a></td>
+                      <td class="cell100 column3">{{order.quantity}}</td>
+                      <td class="cell100 column4">{{order.size}}</td>
+                      <td class="cell100 column4">{{order.color}}</td>
+                      <td class="cell100 column4">{{order.sellingprice}}</td>
+                      <td class="cell100 column4">{{order.costprice}}</td>
+                        {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock page_content %}

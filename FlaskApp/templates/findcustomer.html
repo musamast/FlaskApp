@@ -1,0 +1,64 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+{%include 'includes/_messages.html'%}
+
+<form action="" method="POST">
+<div class="flex-w">
+        <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10 m-l-10" id="fo">
+                <select class="selection-2" name="search" >
+                    <option selected value='id' >Search by Id </option>
+                    <option value='username'>Search by Username</option>	
+                </select>
+            </div>
+        <div class="search-product pos-relative bo4 of-hidden">
+            
+                <input class="s-text7 size6 p-l-23 p-r-50" type="text" name="customer" placeholder="Search Customers...">
+
+                <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4" type="submit">
+                    <i class="fs-12 fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+           
+                            </div>
+                        </form>
+<div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-head">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">Customer Id</th>
+                      <th class="cell100 column2">Name</th>
+                      <th class="cell100 column3">Username</th>
+                      <th class="cell100 column4">Email</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+  
+              <div class="table100-body js-pscroll">
+                <table>
+                  <tbody>
+
+                    {%if records != 0 %}
+                   {% for record in records %}
+                    <tr class="row100 body">
+                      <td class="cell100 column1"><a href="{{url_for('customer_orders',customerid=record.id)}}"> {{record.id}}&nbsp;&nbsp;Check Details </a></td>
+                      <td class="cell100 column2">{{record.name}}</td>
+                      <td class="cell100 column3">{{record.username}}</td>
+                      <td class="cell100 column4">{{record.email}}</td>
+                    </tr>
+                  {% endfor %}
+                     {% endif %}
+                  </tbody>
+                  
+                </table>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock page_content %}

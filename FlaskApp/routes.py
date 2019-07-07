@@ -3,6 +3,7 @@ from functools import wraps
 from passlib.hash import sha256_crypt
 from functools import wraps
 from FlaskApp import app , mysql
+import datetime
 from FlaskApp.forms import AddProductForm , Register , Login
 from FlaskApp.otherFunctions import visitedUser, save_picture, check_ext,user_login_required,admin_login_required
 
@@ -129,6 +130,7 @@ def showproduct(category,productcode):
                 'quantity' : quantity ,
                 'size'     :  size ,
                 'color'    : color,
+                'producttotal':int(product['price'])*int(quantity)
                 })
                 session['total']+=(int(product['price']) * int(quantity))
             else:
@@ -138,6 +140,7 @@ def showproduct(category,productcode):
                 'quantity' : quantity ,
                 'size'     :  size ,
                 'color'    : color,
+                'producttotal':int(product['price'])*int(quantity)
             },] 
                 session['total']=(int(product['price']) * int(quantity)) 
             flash(f"{product['name']} is added to Cart ! ","success")
@@ -505,23 +508,34 @@ def update_product(category,productcode):
         return render_template('updateproduct.html',form=form,product=product,update='Update', title='Update Product')
     return render_template('notfound.html',title='404') , 404
     
-@app.route('/admin/pendingorders/')
+@app.route('/admin/pendingorders/' , methods=['GET','POST'])
 @admin_login_required
 def pending_orders():
     cur=mysql.connection.cursor()
     cur.execute("SELECT * FROM INVOICE WHERE DELIVERYSTATUS = %s",['pending'])
     records=cur.fetchall()
     cur.close()
+    if request.method == 'POST':
+        orderstatus=request.form['update']
+        if 'delivered' in orderstatus:
+            now = datetime.datetime.now()
+            deliverydate=now.strftime("%Y-%m-%d")
+            orderid=orderstatus.split('+')[1]
+            cur=mysql.connection.cursor()
+            cur.execute("UPDATE INVOICE SET DELIVERYSTATUS=%s , DELIVEREDDATE=%s  WHERE ORDERID=%s",('delivered',deliverydate,int(orderid)))
+            mysql.connection.commit()
+            cur.close()
+            return redirect(url_for('pending_orders'))
     return render_template('pendingorder.html',title='Pending Orders',records=records)
 
-@app.route('/admin/pendingorders/<orderid>/')
+@app.route('/admin/salesrecord/<orderid>/')
 @admin_login_required
-def update_orders(orderid):
+def order_details(orderid):
     cur=mysql.connection.cursor()
-    cur.execute("UPDATE INVOICE SET DELIVERYSTATUS=%s WHERE ORDERID=%s",('delivered',int(orderid)))
-    mysql.connection.commit()
+    cur.execute("SELECT * FROM ORDERS WHERE ORDERID=%s",[int(orderid)])
+    orders=cur.fetchall()
     cur.close()
-    return redirect(url_for('pending_orders'))
+    return render_template('orderdetails.html',title='Order Details',orders=orders)
 
 
 @app.route('/admin/salesrecord/')
@@ -533,15 +547,157 @@ def sales_record():
     cur.close()
     return render_template('salesrecord.html',title='Sales Record',records=records)
 
-@app.route('/admin/findcustomer/')
+@app.route('/admin/findcustomer/',methods=['GET','POST'])
 @admin_login_required
 def find_customer():
-    pass
+    cur=mysql.connection.cursor()
+    cur.execute("SELECT * FROM CUSTOMERS")
+    records=cur.fetchall()
+    cur.close()
+    if request.method == 'POST':
+        cur=mysql.connection.cursor()
+        search=request.form['search']
+        if search == 'id':
+            try:
+                customer=int(request.form['customer'])
+            except:
+                flash("TYPE VALID ID !", "danger")
+                return render_template('findcustomer.html',title='Customer details' ,records=records)
+            cur.execute("SELECT * FROM CUSTOMERS WHERE ID = %s",[customer])
+        else:
+            customer=request.form['customer']
+            cur.execute("SELECT * FROM CUSTOMERS WHERE username = %s",[customer])
+        records=cur.fetchall()
+        cur.close()
+        if len(records) == 0:
+            flash("NO RECORDS FOUND !", "danger")
+            return render_template('findcustomer.html',title='Customer details',records=records)
+        else:
+            return render_template('findcustomer.html',title='Customer details',records=records)
+    return render_template('findcustomer.html',title='Customer details',records=records)
 
-@app.route('/admin/others/')
+@app.route('/admin/findcustomer/<customerid>/')
+def customer_orders(customerid):
+    cur=mysql.connection.cursor()
+    cur.execute("SELECT * FROM INVOICE WHERE CUSTOMERID = %s",[int(customerid)])
+    records=cur.fetchall()
+    return render_template('salesrecord.html',title='Orders',records=records)
+
+
+@app.route('/admin/others/' ,methods=['GET','POST'])
 @admin_login_required
 def others():
-    pass
+    if request.method == 'POST':
+        if 'mostrevenuegenerated' in request.form:
+            currentyear=datetime.datetime.now().year
+            cur=mysql.connection.cursor()
+            cur.execute("""SELECT * FROM INVOICE""")
+            records=cur.fetchall()
+            records=list(records)
+            yearrecords=[]
+            for record in records:
+                if record['orderdate'].year == currentyear:
+                    yearrecords.append(record)
+            occurrences={1: {'productid':' ','occurrences' : 0,'category': '',}}
+            count=1
+            for val in yearrecords:
+                find=False
+                for i in occurrences:
+                    if val['productid'] == occurrences[i]['productid']:
+                        occurrences[i]['occurrences']+=1
+                        find=True
+                        break
+                if(not find):
+                    occurrences[count]['productid']=val['productid']
+                    occurrences[count]['occurrences']=1
+                    occurrences[count]['category']=val['category']
+                    count+=1
+                    occurrences[count]={'productid':' ','occurrences' : 0,'category': ''}
+            occurrences=list(occurrences.values())
+            popularproducts = sorted(occurrences, key=lambda k: k['occurrences'],reverse=True)[:3]
+            cur=mysql.connection.cursor()
+            cur.execute("SELECT YEARR FROM POPULARPRODUCT")
+            data=cur.fetchall()
+            cur.close()
+            found=False
+            for year in data:
+                if int(year['YEARR']) == datetime.datetime.now().year:
+                    found=True
+            if (not found):
+                for product in popularproducts:
+                    if product['productid'] != ' ':
+                        productid=product['productid']
+                        category=product['category']
+                        year=datetime.datetime.now().year
+                        cur=mysql.connection.cursor()
+                        cur.execute("INSERT INTO POPULARPRODUCT (PRODUCTID,CATEGORY,YEARR) VALUES (%s,%s,%s)",(productid,category,year))
+                    mysql.connection.commit()
+                    cur.close()
+
+
+
+
+        if 'visitedusers' in request.form:
+            cur=mysql.connection.cursor()
+            cur.execute('SELECT * FROM VISITEDUSERS')
+            users=cur.fetchall()
+            cur.close()
+            return render_template('visitedusers.html', title='Visited Users',users=users)
+        if 'popularproduct' in request.form:
+            currentyear=datetime.datetime.now().year
+            cur=mysql.connection.cursor()
+            cur.execute("""SELECT orders.orderid, productid ,category , orderdate FROM orders , 
+            products , invoice WHERE orders.productid=products.code AND orders.orderid=invoice.orderid""")
+            records=cur.fetchall()
+            records=list(records)
+            yearrecords=[]
+            for record in records:
+                if record['orderdate'].year == currentyear:
+                    yearrecords.append(record)
+            occurrences={1: {'productid':' ','occurrences' : 0,'category': '',}}
+            count=1
+            for val in yearrecords:
+                find=False
+                for i in occurrences:
+                    if val['productid'] == occurrences[i]['productid']:
+                        occurrences[i]['occurrences']+=1
+                        find=True
+                        break
+                if(not find):
+                    occurrences[count]['productid']=val['productid']
+                    occurrences[count]['occurrences']=1
+                    occurrences[count]['category']=val['category']
+                    count+=1
+                    occurrences[count]={'productid':' ','occurrences' : 0,'category': ''}
+            occurrences=list(occurrences.values())
+            popularproducts = sorted(occurrences, key=lambda k: k['occurrences'],reverse=True)[:3]
+            cur=mysql.connection.cursor()
+            cur.execute("SELECT YEARR FROM POPULARPRODUCT")
+            data=cur.fetchall()
+            cur.close()
+            found=False
+            for year in data:
+                if int(year['YEARR']) == datetime.datetime.now().year:
+                    found=True
+            if (not found):
+                for product in popularproducts:
+                    if product['productid'] != ' ':
+                        productid=product['productid']
+                        category=product['category']
+                        year=datetime.datetime.now().year
+                        cur=mysql.connection.cursor()
+                        cur.execute("INSERT INTO POPULARPRODUCT (PRODUCTID,CATEGORY,YEARR) VALUES (%s,%s,%s)",(productid,category,year))
+                    mysql.connection.commit()
+                    cur.close()
+            cur=mysql.connection.cursor()
+            # cur.execute('SELECT * FROM POPULARPRODUCT')
+            cur.execute('SELECT * FROM INVOICE')
+            # products=cur.fetchall() 
+            records=cur.fetchall()       
+            # return render_template('popularproduct.html', title='Popular Products',products=products)
+            return render_template('others.html',title='Others',records=records)
+
+    return render_template('others.html',title='Others')
 
 
 @app.route('/admin/addproduct/', methods=['POST', 'GET'])

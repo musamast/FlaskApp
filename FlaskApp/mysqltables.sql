@@ -75,3 +75,33 @@ CREATE TABLE orders
    REFERENCES products(CODE)
      ON DELETE CASCADE  
 );
+
+
+CREATE TABLE popularproduct(
+ id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    productid  VARCHAR(20) NOT NULL,  
+  category VARCHAR(15) NOT NULL,  
+  yearr VARCHAR(10) NOT NULL,
+  FOREIGN KEY (productid)
+   REFERENCES products(CODE)
+     ON DELETE CASCADE
+);
+
+CREATE TABLE frequentcustomers(
+ id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    customerid  INT(11) NOT NULL ,
+    NAME VARCHAR(30) NOT NULL,  
+  yearr VARCHAR(10) NOT NULL,
+   FOREIGN KEY (customerid)
+   REFERENCES customers(id)
+     ON DELETE CASCADE  
+);
+CREATE TABLE revenuegeneratedcustomers(
+ id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    customerid  INT(11) NOT NULL ,
+    NAME VARCHAR(30) NOT NULL,  
+  yearr VARCHAR(10) NOT NULL,
+   FOREIGN KEY (customerid)
+   REFERENCES customers(id)
+     ON DELETE CASCADE  
+);

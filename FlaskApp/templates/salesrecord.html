@@ -1,6 +1,8 @@
 {% extends "layout2.html" %}
 {% block page_content %}
+
 <div class="limiter">
+    
         <div class="container-table100">
           <div class="wrap-table100">
             <div class="table100 ver2 m-b-110">
@@ -26,13 +28,13 @@
                     
                     {% for order in records%}
                     <tr class="row100 body" style="text-align:center;" >
-                      <td class="cell100 column1">{{order.orderid}}</td>
+                      <td class="cell100 column1"><a href="{{url_for('order_details',orderid=order.orderid)}}">{{order.orderid}}&nbsp;&nbsp; Check Details</a></td>
                       <td class="cell100 column2">{{order.customerid}}</td>
                       <td class="cell100 column3">{{order.address}}</td>
                       <td class="cell100 column4">{{order.orderdate}}</td>
                       <td class="cell100 column4">{{order.totalamount}}</td>
                       <td class="cell100 column4">{{order.deliverystatus}}</td>
-                      <td class="cell100 column4">{{order.deliverydate}}</td>
+                      <td class="cell100 column4">{{order.delivereddate}}</td>
                     </tr>
                     {% endfor %}
   

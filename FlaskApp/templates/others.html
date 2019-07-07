@@ -1,0 +1,85 @@
+{% extends 'layout2.html'%}
+{% block page_content %}
+
+
+{{records}}
+<br>
+<div class="row">
+
+        <div class="col">
+            <form action="" method="POST">
+    <div class="size15 trans-0-4">
+        <!-- Button -->
+        <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
+         Update Yearly Records
+          <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+       
+        </button>
+      </div>
+    
+        </div>
+
+
+        <div class="col">
+           
+      <div class="size15 trans-0-4">
+            <!-- Button -->
+            <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='visitedusers' style="color:white;"> 
+              
+              Daily Visited Users
+              <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+           
+            </button>
+          </div>
+          
+    </div>
+
+    <div class="col">
+            <div class="size15 trans-0-4">
+                  <!-- Button -->
+                  <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='popularproduct' style="color:white;"> 
+                    
+                    Category Wise Popular Product
+                    <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                 
+                  </button>
+                </div>
+          </div>
+    </div>
+<br><br>
+    <div class="row">
+            <div class="col">
+                    <div class="size15 trans-0-4">
+                          <!-- Button -->
+                          <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
+                            
+                            Top 3 Revenue Generated Customers
+                            <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                         
+                          </button>
+                        </div>
+                  </div>
+                  <div class="col">
+                        <div class="size15 trans-0-4">
+                              <!-- Button -->
+                              <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
+                                
+                                    Top 3 Frequent Customers
+                                <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                             
+                              </button>
+                            </div>
+                      </div>      
+
+
+                      </form>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock page_content %}

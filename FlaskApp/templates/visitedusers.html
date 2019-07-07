@@ -1,0 +1,39 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+<div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-head">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">IP Address</th>
+                      <th class="cell100 column2">Visited link</th>
+                      <th class="cell100 column3">Time</th>
+                      <th class="cell100 column4">Date</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+  
+              <div class="table100-body js-pscroll">
+                <table>
+                  <tbody>
+                      {% for user in users%}
+                    <tr class="row100 body" >
+                      <td class="cell100 column1">{{user.ip}}</td>
+                      <td class="cell100 column2">{{user.link}}</td>
+                      <td class="cell100 column3">{{user.timee}}</td>
+                      <td class="cell100 column4">{{user.datee}}</td>
+                      
+                        {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock page_content %}

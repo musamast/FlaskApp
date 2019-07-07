@@ -20,33 +20,35 @@
               <div class="table100-body js-pscroll">
                 <table>
                   <tbody>
-                    
+
                     {% for order in records%}
+                    <form method="POST">
                     <tr class="row100 body">
                       <td class="cell100 column1">{{order.orderid}}</td>
                       <td class="cell100 column2">{{order.orderdate}}</td>
                       <td class="cell100 column3"><div class="form-check">
-                          <input class="form-check-input" type="radio" name="{{order.orderid}}" id="exampleRadios1" value="option1" checked>
+                          <input class="form-check-input" type="radio" name="update" value="pending" checked>
                           <label class="form-check-label" for="exampleRadios1">
                             Pending
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="{{order.orderid}}" id="exampleRadios2" value="option2">
+                          <input class="form-check-input" type="radio" name="update"  value="delivered+{{order.orderid}}">
                           <label class="form-check-label" for="exampleRadios2">
                            Delivered
                           </label>
                         </div></td>
                       <td class="cell100 column4"><div class="size15 trans-0-4">
                           <!-- Button -->
-                          <a href="{{url_for('update_orders',orderid=order.orderid)}}" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
+                          <button type="submit"  class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" name='update' style="color:white;"> 
                             
                             Update
                             <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
                          
-                        </a>
+                          </button>
                         </div></td>
                     </tr>
+                  </form>
                     {% endfor %}
   
                   </tbody>

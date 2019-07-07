@@ -1,0 +1,36 @@
+{% extends "layout2.html" %}
+{% block page_content %}
+<div class="limiter">
+        <div class="container-table100">
+          <div class="wrap-table100">
+            <div class="table100 ver2 m-b-110">
+              <div class="table100-head">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column1">Product code</th>
+                      <th class="cell100 column2">Category</th>
+                      <th class="cell100 column3">Year</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+  
+              <div class="table100-body js-pscroll">
+                <table>
+                  <tbody>
+                      {% for product in products%}
+                    <tr class="row100 body" >
+                      <td class="cell100 column1"><a href="{{url_for('dashboard_products',category='all',productcode=product.productid)}}">{{product.productid}}&nbsp;&nbsp;Check Details</a></td>
+                      <td class="cell100 column2">{{product.category}}</td>
+                      <td class="cell100 column3">{{product.yearr}}</td>                      
+                        {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock page_content %}
